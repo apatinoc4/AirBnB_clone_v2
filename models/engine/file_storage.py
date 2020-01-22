@@ -62,7 +62,7 @@ class FileStorage:
                     self.__objects[key] = value
         except FileNotFoundError:
             pass
-    
+
     def delete(self, obj=None):
         """delete obj from __objects if it’s inside
         """
@@ -71,3 +71,8 @@ class FileStorage:
             if key_check in self.__objects:
                 del self.__objects[key_check]
             self.save()
+
+    def close(self):
+        """public method for deserializing JSON
+        """
+        self.reload()
