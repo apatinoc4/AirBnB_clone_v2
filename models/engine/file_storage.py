@@ -28,11 +28,11 @@ class FileStorage:
         if cls is None:
             return self.__objects
         else:
-            dic = dict()
+            new_dict = {}
             for key, value in self.__objects.items():
-                if key.split(".")[0] == cls.__name__:
-                    dic[key] = value
-            return (dic)
+                if cls.__name__ in key:
+                    new_dict[key] = value
+            return new_dict
 
     def new(self, obj):
         """sets __object to given obj
