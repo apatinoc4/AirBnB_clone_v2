@@ -9,13 +9,14 @@ def close_sess(close):
     storage.close()
 
 
-@app.route('/states_list', strict_slashes=False)
-def list():
-    """Display a list of states"""
-    objs_states = storage.all("State").values()
+@app.route('/states', strict_slashes=False)
+def city_state():
+    """Cities by states
+    """
+    objs = storage.all("State").values()
     return render_template(
                 "7-states_list.html",
-                states=objs_states
+                states=objs
             )
 
 
@@ -37,5 +38,5 @@ def states_int(id):
             )
 
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+if __name__ == "__main__":
+    app.run()
