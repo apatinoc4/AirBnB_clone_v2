@@ -1,32 +1,40 @@
 #!/usr/bin/python3
-""" use flask to list all states """
 from flask import Flask, render_template
-from models import storage
-from models.state import State
+from models import storage, state
 app = Flask(__name__)
 
 
 @app.teardown_appcontext
-def clean_up(self):
+def close_sess(close):
     storage.close()
 
 
-@app.route('/states', strict_slashes=False)
-def list_states():
-    """ list the states in the db """
-    d = storage.all(State)
-    return render_template('9-states.html', d=d, one_state=False)
+@app.route('/states_list', strict_slashes=False)
+def list():
+    """Display a list of states"""
+    objs_states = storage.all("State").values()
+    return render_template(
+                "7-states_list.html",
+                states=objs_states
+            )
 
 
 @app.route('/states/<id>', strict_slashes=False)
-def states_by_id(id):
-    """ list cities for state in the db """
-    state = 0
-    d = storage.all(State)
-    state_id = 'State.' + id
-    if state_id in d:
-        state = d[state_id]
-    return render_template('9-states.html', d=state, one_state=True)
+def states_int(id):
+    """state is id is equal to .
+    """
+    objs = storage.all("State").values()
+    position = {}
+    for data in objs:
+        if data.id == id:
+            position = data
+            break
+        else:
+            position = None
+    return render_template(
+                "9-states.html",
+                state=position
+            )
 
 
 if __name__ == '__main__':
